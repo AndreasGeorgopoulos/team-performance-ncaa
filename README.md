@@ -23,5 +23,5 @@ Similarly, for each year and school, the names of correspodning players are extr
 ### Feature Selection 
 
 
-*** To read full report [click here](http://www.andreasgeorgopoulos.com/wp-content/uploads/2017/10/NCAA_Georgopoulos.pdf)
+*** To read full report [click here](http://www.andreasgeorgopoulos.com/team-performance-ncaa/)
 
