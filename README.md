@@ -15,7 +15,7 @@ For each year and school the following coach data is acquired:
 From the aforementioned coach data the following additional features are generated for each of the target teams that are present in the initial dataset:
 - Consecutive years coaching corresponding team until corresponding year
 - Win:Loss percentage of coach based on his overall carreer until corresponding year (overall W-L% of previous year)
-- Toatl number of coach NCAA appearances until corresponding year
+- Total number of coach NCAA appearances until corresponding year
   
 **2. Team Composition Data**  
 Similarly, for each year and school, the names of correspodning players are extracted in order to capture the capture the change in each team's composition from year to year. More specifically, the Jaccard similarity of each school and year is computed based on the team composition of the corresponding year and the previous one.
