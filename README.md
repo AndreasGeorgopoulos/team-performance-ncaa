@@ -22,7 +22,8 @@ Similarly, for each year and school, the names of correspodning players are extr
 
 ### Feature Selection 
 
-_An additional code file ([`R_code_BFSelection.R`](https://github.com/AndreasGeorgopoulos/team-performance-ncaa/blob/master/R_code_BFSelection.R)) is provided , which depicts a forward-backward feature selection process implemented in R as well as a weighted least square estimation of the selected regressors on the target variable of the outcome of each game (metric of team performance)._
+
+An additional code file ([`R_code_BFSelection.R`](https://github.com/AndreasGeorgopoulos/team-performance-ncaa/blob/master/R_code_BFSelection.R)) is provided , which depicts a forward-backward feature selection process implemented in R as well as a weighted least square estimation of the selected regressors on the target variable of the outcome of each game (metric of team performance).
 
 *** To read full report [click here](http://www.andreasgeorgopoulos.com/team-performance-ncaa/)
 
