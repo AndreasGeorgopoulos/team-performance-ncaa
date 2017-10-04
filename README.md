@@ -4,7 +4,7 @@ At this project a dataset from The National Collegiate Athletic Association ([`c
 
 ### Data Acquisition
 The initial dataset is supplemented with additional features, which are engineered based on the additional data that is acquired from the generated web-scraping algorithms. The data that is extracted from the [http://www.sports-reference.com/cbb] website can be sumarised as following:
-**1. Coach Data**
+**1. Coach Data**  
 For each year and school the following coach data is acquired:
 - Coach Name
 - First coaching year at corresponding team
@@ -16,7 +16,7 @@ From the aforementioned coach data the following additional features are generat
 - Win:Loss percentage of coach based on his overall carreer until corresponding year (overall W-L% of previous year)
 - Toatl number of coach NCAA appearances until corresponding year
 
-**2. Team Composition Data**
+**2. Team Composition Data**  
 Similarly, for each year and school, the names of correspodning players are extracted in order to capture the capture the change in each team's composition from year to year. More specifically, the Jaccard similarity of each school and year is computed based on the team composition of the corresponding year and the previous one.
 
 ### Feature Selection 
