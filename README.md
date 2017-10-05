@@ -21,9 +21,12 @@ From the aforementioned coach data the following additional features are generat
 Similarly, for each year and school, the names of correspodning players are extracted in order to capture the capture the change in each team's composition from year to year. More specifically, the Jaccard similarity of each school and year is computed based on the team composition of the corresponding year and the previous one.
 
 ### Feature Selection 
-
+All variables are examined for correlation between each other by visualising a pairwise correlation scatterplot matrix as well as by VIF calculations in order to avoid any problem of multicollinearity. When two highly correlated variables are identified, the one that is included at the model with the lowest AIC is preferred and the other is omitted from the set of potential predictors. In order to identify the most important variables a univariate selection method namely F – Regression, a Random Forest Regressor, and a stability Randomised Lasso selection process are implemented. In addition, the functional form of each variable is selected based on the distribution of each one of them and is validated through statistical tests (Ramsey's RESET test) to avoid any bias due to functional form misspecification. 
 
 An additional code file ([`R_code_BFSelection.R`](https://github.com/AndreasGeorgopoulos/team-performance-ncaa/blob/master/R_code_BFSelection.R)) is provided , which depicts a forward-backward feature selection process implemented in R as well as a weighted least square estimation of the selected regressors on the target variable of the outcome of each game (metric of team performance).
+
+### Regression
+After selecting the most important features that explain the variation of a team’s performance on each game, a linear regression model with robust standard errors (due to heteroskedastic standard errors) that describes the outcome of a game in terms of the selected predictors is generated.
 
 *** To read full report [click here](http://www.andreasgeorgopoulos.com/team-performance-ncaa/)
 
