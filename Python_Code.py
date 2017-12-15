@@ -1,23 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
 @author: Andreas Georgopoulos
 """
 
+from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
+from sklearn.cross_validation import train_test_split
+import matplotlib.pyplot as plt
+from bs4 import BeautifulSoup 
+from itertools import product
+import sklearn.metrics
+import seaborn as sns
 import pandas as pd
 import numpy as np
-from bs4 import BeautifulSoup 
 import httplib2
 import html5lib
-from itertools import product
-
-from sklearn.cross_validation import train_test_split
-import sklearn.metrics
-from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
-import matplotlib.pyplot as plt
 import pylab
-import seaborn as sns
 
 # Import Data
 bball_data = pd.read_csv("college_bball_data.csv")
@@ -25,12 +23,10 @@ bball_data = pd.read_csv("college_bball_data.csv")
 # Unique Colleges that we have data for
 colleges = list(set(bball_data['School']))
 
-
-
-
 """ 
 -------------  Get coaches data of each college from 2006-2015-----------------
 """
+
 http = httplib2.Http()
 coaches_wl_per_college = {}
 
@@ -80,9 +76,7 @@ for i in range(len(coach_years_wl)):
         coach_years_wl.loc[i,'Coach_NCAA_appear'] = 0 
     else: 
         coach_years_wl.loc[i,'Coach_NCAA_appear'] = int(coaches_wl_per_college[int(year)-1][school]['NCAA_appearances'])
-
-    
-          
+      
 
 """ 
 --------------- Get team composition of each college per year -----------------
@@ -110,9 +104,9 @@ for college in colleges:
     # dictionary of each college's team composition per year
     team_composition[college] = team_comp_year
                     
-
-                   
-""" Find Jaccard similarity of each college's team composition from previous year
+               
+""" 
+    Find Jaccard similarity of each college's team composition from previous year
     (capture the change in team's composition from year to year)
 """
 
@@ -144,7 +138,6 @@ similarity_team_composition.to_csv('similarity_team_composition.csv')
 
 
 
-
 """
     Join Dataframe with Additional Variables -----------------------------------
 """
@@ -158,12 +151,9 @@ bball_data = pd.merge(bball_data, similarity_team_composition, on = ['School','Y
 #bball_data['Coach_NCAA_appear'] = bball_data['Coach_NCAA_appear'].where((pd.notnull(bball_data['Coach_NCAA_appear'])), 0)
 
 
-
-
 """
     Data Exploration -----------------------------------------------------------
 """
-
 # Find columns with NA values:
 bball_data.columns[bball_data.isnull().any()].tolist()  
 
@@ -216,14 +206,11 @@ g2.fig.suptitle('Predictors on Target Variable', fontsize=14)
 g2.savefig("rel_multipleplot.png")
 
 
-
-
 """
     Check for multicollinearity (calculate VIF) --------------------------------
 """
 
 #VIF is calculated by auxiliary regression, so not dependent on the actual fit. IMHO, diagnostics like this are a good motivation for breaking out the design matrix.
-
 from patsy import dmatrices
 from statsmodels.stats.outliers_influence import variance_inflation_factor, reset_ramsey
 
@@ -244,7 +231,6 @@ features = "+".join(predictors)
 """ 
     Correlation  Heatmap Seaborn
 """
-
 sns.set(style="white")
 corr = bball_data.corr()
 f2=plt.figure(figsize=(12,8))
@@ -262,18 +248,15 @@ plt.show()
 """
     Pairwise Scatterplot Correlation Matrix
 """
-
 # Scatterplot Matrix
 g = sns.pairplot(bball_data)
 g.fig.suptitle('Pairwise Scatterplot Matrix of Predictors', fontsize=14)
 g.savefig("scatterplot_matrix.png")
 
 
-
-
-""" Random Forest  ------------------------------------------------------------
 """
-
+    Random Forest  ------------------------------------------------------------
+"""
 ## Random Forest
 def random_forest_func(df, predictors, targets, test_size=.4):
 
@@ -333,8 +316,6 @@ def plot_importance(rank, regressors,chart_title):
 plot_importance(importance, predictors, "Random Forest - Extra Tree Classifier Results")
 
 
-
-
 """
     Additional Feature Selection Techinques ------------------------------------------
 """
@@ -363,7 +344,6 @@ plot_importance(f_test, predictors,"F - Regression Results")
 """
     Randomised Lasso - Feature Selection (Stability)
 """
-
 rlasso = RandomizedLasso(alpha=0.025)
 rlasso.fit(X, Y)
 plot_importance(np.abs(rlasso.scores_), predictors, "Randomised Lasso Results")
@@ -382,9 +362,7 @@ predictors = list(bball_data.columns)
 features_final = 'home_game + height_diversity + log(ethnic_diversity)  + class_diversity + class_diversity_squared + conference_size + conference_size_squared + conf_wl + opp_games_played + opponent_win_loss + Coach_Win_Loss_Perc + Coach_NCAA_appear + Team_Comp_Change + Coaching_Years + Coaching_Years_squared'
 predictors_final = [e for e in predictors if e not in {'School','opp_name','Percentage_Dif_Points','Coach_Name','pts','opp_pts','outcome','same_conf','experience_in_arena','Year','Game','region_diversity','school_diversity','degree_diversity','experience_with_opponent'}]
 
-
-
-                                                    
+                                                
 """
     Functional Form Misspecification-------------------------------------------
     
@@ -399,8 +377,6 @@ model_final = smf.ols("outcome ~" +  features_final, data=bball_data).fit() # Sk
 print(model_final.summary())
 
 reset_ramsey(model_final, 3) # fail to reject at 5% sign ---> so no misspecification
-
-
 
 
 """
@@ -421,8 +397,6 @@ lzip(name, test)           # Heterokedastic error ---> go for WLS regression
 # Fit regression model
 model_final_robust = smf.ols("outcome ~" +  features_final, data=bball_data).fit(cov_type = 'HC1') # Skip Warnings of multicollinearity--> reflect the square of conference size, no problem
 print(model_final_robust.summary())
-
-
 
 
 """
@@ -455,8 +429,6 @@ def plot_contribution(rank, regressors,chart_title):
     plt.show()
 
 plot_contribution(np.array(perc_contr['Value']), np.array(perc_contr['Variable']), 'Relative importances for Outcome')
-
-
 
 
 """
